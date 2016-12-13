@@ -1,3 +1,4 @@
+import 'dart:convert';
 import '../user_agent.dart';
 
 class UAPattern {
@@ -9,6 +10,17 @@ class UAPattern {
       this.familyReplacement,
       this.v1Replacement,
       this.v2Replacement});
+
+  factory UAPattern.fromMap(Map data) {
+    return new UAPattern(
+        pattern: new RegExp(data['regex']),
+        familyReplacement: data['family_replacement'],
+        v1Replacement: data['v1_replacement'],
+        v2Replacement: data['v2_replacement']);
+  }
+
+  factory UAPattern.fromJson(String json) =>
+      new UAPattern.fromMap(JSON.decode(json));
 
   UserAgent match(String agentString) {
     String family = null, v1 = null, v2 = null, v3 = null;
@@ -52,4 +64,16 @@ class UAPattern {
         ? null
         : new UserAgent(family: family, major: v1, minor: v2, patch: v3);
   }
+
+  Map toJson() {
+    return {
+      'regex': pattern?.toString() ?? '',
+      'family_replacement': familyReplacement ?? '',
+      'v1_replacement': v1Replacement ?? '',
+      'v2_replacement': v2Replacement ?? ''
+    };
+  }
+
+  @override
+  String toString() => JSON.encode(this);
 }
