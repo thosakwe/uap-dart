@@ -1,5 +1,5 @@
 import '../parsers/ua_pattern.dart';
-final List<UAPattern> patterns = [
+final List<UAPattern> PATTERNS = [
 new UAPattern.fromMap({"family_replacement":"CFNetwork","regex":"(CFNetwork)(?:/(\\d+)\\.(\\d+)\\.?(\\d+)?)?"}),
 new UAPattern.fromMap({"family_replacement":"PingdomBot","regex":"(Pingdom.com_bot_version_)(\\d+)\\.(\\d+)"}),
 new UAPattern.fromMap({"family_replacement":"FacebookBot","regex":"(facebookexternalhit)/(\\d+)\\.(\\d+)"}),

@@ -8,6 +8,7 @@ main(args) => grind(args);
 @Task()
 test() => new TestRunner().testAsync();
 
+@DefaultTask()
 @Task()
 regex() async {
   final file = new File.fromUri(Platform.script.resolve('../regexes.yaml'));
@@ -28,7 +29,7 @@ buildPatterns(YamlDocument doc) async {
 buildUAPatterns(YamlDocument doc) async {
   final buf = new StringBuffer("import '../parsers/ua_pattern.dart';")
     ..writeln()
-    ..writeln('final List<UAPattern> patterns = [');
+    ..writeln('final List<UAPattern> PATTERNS = [');
   int i = 0;
 
   for (YamlNode parser in doc.contents.value['user_agent_parsers']) {
@@ -55,7 +56,14 @@ buildOSPatterns(YamlDocument doc) async {
     ..writeln('final List<UAPattern> patterns = [');
   int i = 0;
 
-  for (YamlNode parser in doc.contents.value['user_agent_parsers']) {
+  for (YamlNode parser in doc.contents.value['os_parsers']) {
+    Map map = parser.value;
+    //print(map);
+
+    if (!(map.containsKey('os_replacement') && map.containsKey('regex'))) {
+      continue;
+    }
+    
     if (i++ > 0) {
       buf.writeln(',');
     }
@@ -79,7 +87,10 @@ buildDevicePatterns(YamlDocument doc) async {
     ..writeln('final List<UAPattern> patterns = [');
   int i = 0;
 
-  for (YamlNode parser in doc.contents.value['user_agent_parsers']) {
+  for (YamlNode parser in doc.contents.value['device_parsers']) {
+    Map map = parser.value;
+    print(map);
+
     if (i++ > 0) {
       buf.writeln(',');
     }

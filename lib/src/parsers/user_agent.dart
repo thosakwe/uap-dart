@@ -6,7 +6,7 @@ import 'ua_pattern.dart';
  * User Agent parser using ua-parser regexes
  */
 class UserAgentParser {
-  final List<UAPattern> patterns = []..addAll(g.patterns);
+  final List<UAPattern> patterns = []..addAll(g.PATTERNS);
 
   UserAgentParser({List<UAPattern> patterns: const []}) {
     if (patterns != null) this.patterns.addAll(patterns);
